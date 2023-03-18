@@ -58,8 +58,9 @@ class PostController extends Controller
 
     public function store(){
         
-        return redirect()->route('posts.index');
-        // return view('post.index');
+        // return redirect()->route('posts.index');
+        // dd("stored");
+        return redirect()-> route('posts.index');
 
     }
 
