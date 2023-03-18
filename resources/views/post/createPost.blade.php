@@ -8,8 +8,9 @@
 
 <div class="container">
 		<h1>Create a New Post</h1>
-		<form>
-			<div class="form-group">
+		<form action="{{route('posts.store')}}" method="post">
+  @csrf
+			<div class="form-group" >
 				<label for="post-title">Title</label>
 				<input type="text" class="form-control" id="post-title" placeholder="Enter post title">
 			</div>
@@ -23,7 +24,7 @@
     <input type="text" class="form-control" id="post-creater" placeholder="Enter your name">
 </div>
 
-<button type="submit" class="btn btn-primary"> <a href="{{route('posts.index')}} "class="btn text-white " >Publish Post </a></button>
+<button type="submit" class="btn btn-primary">Publish Post </button>
 		</form>
 	</div>
 

@@ -56,4 +56,21 @@ class PostController extends Controller
         // return "hellooooooo";
     }
 
+    public function store(){
+        
+        return redirect()->route('posts.index');
+        // return view('post.index');
+
+    }
+
+    public function update(){
+        
+        return view('post.edit');
+        // return view('post.index');
+
+    }
+
+
+
+
 }
