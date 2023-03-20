@@ -21,21 +21,53 @@
 
         @foreach($posts as $post)
             <tr>
-                <td>{{$post['id']}}</td>
+                <td>{{$post->id}}</td>
                 <td>{{$post['title']}}</td>
-                <td>{{$post['posted_by']}}</td>
-                <td>{{$post['created_at']}}</td>
+                @if ($post->user)
+                <td>{{$post->user->name}}</td>
+                @else
+                <td>Not Found</td>
+                @endif
+                <td>{{$post['created_at']->format('Y-m-d')}}</td>
                 <td>
                     <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.update', $post['id'])}}" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="{{route('posts.edit', $post['id'])}}" class="btn btn-primary">Edit</a>
+                    
+                    <form style="display: inline" action="{{route('posts.destroy',['post'=> $post->id])}}" method="POST">
+                        @csrf
+                        @method('Delete')
+                        <button id="submit" type="submit" class="btn btn-danger" onclick="return check()">Delete</button>
+                    </form>
+
                 </td>
             </tr>
         @endforeach
-
-
+        
+        
 
         </tbody>
     </table>
+    {{ $posts->links() }}
+
 
 @endsection
+
+
+<script>
+    function check(){
+        
+        if (confirm("Are you sure you want to delete this post?")) {
+             // code to delete the item
+             return true;
+             
+        } 
+        else {
+            // code to cancel the deletion
+            return false ;
+        }
+
+    }
+
+</script>
+
+

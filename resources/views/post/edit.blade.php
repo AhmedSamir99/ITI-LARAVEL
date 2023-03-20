@@ -4,21 +4,20 @@
 @section('content')
 <div class="container mt-4">
         <h2>Edit Post</h2>
-        <form action="{{route('posts.store')}}" method="POST">
+        <form action="{{route('posts.update' , ['post'=>$post->id])}}" method="POST">
             <!-- Add CSRF token field if using Laravel -->
             @csrf
+            @method('PUT')
             <div class="form-group">
-                <label for="Title">Title:</label>
-                <input type="text" class="form-control" id="Title" name="Title" value="">
+                <label for="Title" >Title:</label>
+                <input type="text" class="form-control" id="Title" name="Title" value="{{$post->title}}">
             </div>
+            
             <div class="form-group">
-                <label for="Title">Description:</label>
-                <input type="text" class="form-control" id="Title" name="Title" value="">
+                <label for="Description">Description:</label>
+                <input type="text" class="form-control" id="Description" name="Description" value="{{$post->description}}">
             </div>
-            <div class="form-group">
-                <label for="Post Creator">Post Creator</label>
-                <input type="text" class="form-control" id="Post Creator" name="Post Creator" value="">
-            </div>
+            
             <button type="submit" class="btn btn-primary">Update User</button>
         </form>
     </div>
