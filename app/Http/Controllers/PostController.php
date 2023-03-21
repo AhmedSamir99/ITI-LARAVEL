@@ -11,7 +11,7 @@ class PostController extends Controller
     public function index()
     {
         // $allPosts= Post::all();
-        $allPosts = Post::orderBy('created_at', 'desc')->paginate(4);
+        $allPosts = Post::orderBy('created_at', 'desc')->paginate(10);
         // $allPosts = [
         //     [
         //         'id' => 1,
@@ -43,6 +43,7 @@ class PostController extends Controller
 //        dd($id);
 
         $post=Post::find($id);
+        $comments=$post->comments;
         // $post =  [
         //     'id' => 3,
         //     'title' => 'Javascript',
@@ -52,8 +53,8 @@ class PostController extends Controller
         // ];
 
 //        dd($post);
-
-        return view('post.show', ['post' => $post]);
+// dd($comments);
+return view('post.show', ["comments"=>$comments],['post' => $post]);
     }
 
     public function create()
