@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,9 +66,16 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
         // return "hellooooooo";
     }
 
-    public function store(Request $request){
+    public function store(StorePostRequest $request){
 
         // Type Hinting 
+
+        // $request->validate([
+        //     'title' => ['required' , 'min:3'],
+        //     'description'=>['required' , 'min:5'],
+        // ]);
+
+
 
         $title=request()->title;
         $description=request()->description;
