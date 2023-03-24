@@ -18,7 +18,7 @@
 
 <div class="container">
 		<h1>Create a New Post</h1>
-		<form action="{{route('posts.store')}}" method="post">
+		<form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
   @csrf
 			<div class="form-group" >
 				<label for="post-title">Title</label>
@@ -29,6 +29,12 @@
 				<textarea class="form-control" id="post-content" rows="5" placeholder="Enter post content" name="description"></textarea>
 			</div>
 
+			<div class="mb-3">
+				<label for="exampleFormControlTextarea1" class="form-label">Image</label>
+				<input type="file" name="image" class="form-control" id="exampleFormControlTextarea1" rows="3">
+			</div>
+
+			
             <div class="mb-3">
 				<label for="exampleFormControlTextarea1" class="form-label">Post Creator</label>
 				<select name="post_creator" class="form-control">

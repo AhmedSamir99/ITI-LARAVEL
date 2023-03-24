@@ -22,8 +22,10 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required' , 'min:3'],
-            'description'=>['required' , 'min:5'],
+            'post_creator'=>'exists:users,id',
+            'title' => ['required' , 'min:3','unique:posts,title,'.$this->post],
+            'description'=>['required' , 'min:10'],
+            'image'=>['max:2048','mimes:jpg,jpeg,png'],
             //
         ];
     }

@@ -19,6 +19,9 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="navbar-nav">
+                <a class="nav-link active" href="{{route('posts.index')}}">All Posts</a>
+            </div>
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}

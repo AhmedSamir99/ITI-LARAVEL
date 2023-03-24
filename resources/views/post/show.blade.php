@@ -10,6 +10,10 @@
         <div class="card-body">
             <h5 class="card-title">Title: {{$post['title']}}</h5>
             <p class="card-text">Description: {{$post['description']}}</p>
+            
+            @if($post->image_path)
+                    <img src={{'storage/images/' . $post->image_path}} alt="{{ $post->title }}" class="img-fluid" >
+            @endif
         </div>
     </div>
     

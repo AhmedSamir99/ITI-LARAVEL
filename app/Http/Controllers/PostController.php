@@ -13,29 +13,7 @@ class PostController extends Controller
     {
         // $allPosts= Post::all();
         $allPosts = Post::orderBy('created_at', 'desc')->paginate(10);
-        // $allPosts = [
-        //     [
-        //         'id' => 1,
-        //         'title' => 'Laravel',
-        //         'posted_by' => 'Ahmed',
-        //         'created_at' => '2022-08-01 10:00:00'
-        //     ],
-
-        //     [
-        //         'id' => 2,
-        //         'title' => 'PHP',
-        //         'posted_by' => 'Mohamed',
-        //         'created_at' => '2022-08-01 10:00:00'
-        //     ],
-
-        //     [
-        //         'id' => 3,
-        //         'title' => 'Javascript',
-        //         'posted_by' => 'Ali',
-        //         'created_at' => '2022-08-01 10:00:00'
-        //     ],
-        // ];
-            
+       
         return view('post.index', ['posts' => $allPosts] );
     }
 
@@ -68,34 +46,24 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
 
     public function store(StorePostRequest $request){
 
-        // Type Hinting 
+      $post=new Post();
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->user_id = $request->input('post_creator');
 
-        // $request->validate([
-        //     'title' => ['required' , 'min:3'],
-        //     'description'=>['required' , 'min:5'],
-        // ]);
+        if ($request->hasFile('image')) {
+            $image = request()->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/images', $filename);
+            $post->image_path = $filename;
 
+            
+            // $path = Storage::putFileAs('posts', $image, $filename);
+            // $post->image_path = $path;
+        }
+        $post->save();
 
-
-        $title=request()->title;
-        $description=request()->description;
-        $post_creator=request()->postCreator;
-
-        
-
-        // $data=request()->all();
-        // dd($request->all());
-
-        //insert in database 
-
-        Post::create([
-            'title'=>$title,
-            'description'=>$description,
-            'user_id'=>$post_creator
-        ]);
-
-        
-        return redirect()-> route('posts.index');
+        return to_route('posts.index');
 
     }
 
