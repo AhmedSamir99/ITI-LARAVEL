@@ -52,7 +52,7 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
         $post->description = $request->input('description');
         $post->user_id = $request->input('post_creator');
         
-        $path = Storage::putFile('public', $request->file('image'));
+        // $path = Storage::putFile('public', $request->file('image'));
         
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -76,24 +76,31 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
 
     }
 
-    public function update($id,Request $request){
+    public function update(Request $request,$id){
         
         $post=Post::find($id);
-        // dd($post->title);
-
-        // $title=$post->title;
-        // $description=$post->description;
-
-        // dd($request->Title);
-        // dd($request->Description);
-
-
-        $post->update([
-            'title'=>$request->Title,
-            'description'=> $request->Description
-        ]);
+        $title= request()->title;
+        $description=request()->description;
+        $postCreator=request()->post_creator;
         
-        return redirect()-> route('posts.index');
+
+            
+        if ($request->hasFile('image')) {
+
+            if($post->image_path){
+                $imagePath=$post->image_path;
+                Storage::delete('public/posts/'. $imagePath);
+            }
+            $image = $request->file('image');
+            $filename = $image->getClientOriginalName();
+            $path = Storage::putFileAs('public/posts/', $image, $filename);
+            $post->image_path = $path;
+        }
+        
+        
+    
+        $post->save();
+        return redirect()->back();
     }
 
     public function destroy($id){

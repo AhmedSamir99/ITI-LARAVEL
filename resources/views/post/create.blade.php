@@ -30,8 +30,8 @@
 			</div>
 
 			<div class="mb-3">
-				<label for="exampleFormControlTextarea1" class="form-label">Image</label>
-				<input type="file" name="image" class="form-control" id="exampleFormControlTextarea1" rows="3">
+				<label for="exampleFormControlTextarea1" class="form-label">Post Image</label>
+            <input type="file" name="image" class="form-control" id="exampleFormControlTextarea1" >
 			</div>
 
 			
