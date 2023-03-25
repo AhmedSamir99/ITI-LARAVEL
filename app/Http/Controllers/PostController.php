@@ -12,28 +12,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        // $allPosts= Post::all();
-        $allPosts = Post::orderBy('created_at', 'desc')->paginate(10);
+        
+        $allPosts = Post::orderBy('created_at', 'desc')->with('user')->paginate(10);
        
         return view('post.index', ['posts' => $allPosts] );
     }
 
     public function show($id)
     {
-//        dd($id);
 
         $post=Post::find($id);
         $comments=$post->comments;
-        // $post =  [
-        //     'id' => 3,
-        //     'title' => 'Javascript',
-        //     'posted_by' => 'Ali',
-        //     'created_at' => '2022-08-01 10:00:00',
-        //     'description' => 'hello description',
-        // ];
-
-//        dd($post);
-// dd($comments);
+        
 return view('post.show', ["comments"=>$comments],['post' => $post]);
     }
 

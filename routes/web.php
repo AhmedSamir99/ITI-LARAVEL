@@ -58,25 +58,85 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/auth/redirect', function () {
     // dd("stop");
     return Socialite::driver('github')->redirect();
-});
+
+})->name('github.login');
  
 Route::get('/auth/callback', function () {
     // $user = Socialite::driver('github')->user();
     // dd($user);
     $githubUser = Socialite::driver('github')->user();
+    $existedUser=User::where('email',$githubUser->getEmail())->first();
+    if($existedUser){
+        Auth::login($existedUser);
+    }
+    else{
+        $user = User::updateOrCreate([
+            'github_id' => $githubUser->id,
+        ], [
+            'name' => $githubUser->name,
+            'email' => $githubUser->email,
+            'password' => bcrypt('default_password'),
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
+     
+        Auth::login($user);
+    }
     // dd($githubUser);
-    $user = User::updateOrCreate([
-        'github_id' => $githubUser->id,
-    ], [
-        'name' => $githubUser->name,
-        'email' => $githubUser->email,
-        'github_token' => $githubUser->token,
-        'github_refresh_token' => $githubUser->refreshToken,
-    ]);
- 
-    Auth::login($user);
     
+    
+    return redirect('/posts');
 });
+
+////////////////////////////////////////////////////
+
+
+Route::get('/login/google', function () {
+    // dd("stop");
+    return Socialite::driver('google')->redirect();
+
+})->name('google.login');
+ 
+Route::get('/login/google/callback', function () {
+    // $user = Socialite::driver('github')->user();
+    // dd("stop");
+    $gmailUser = Socialite::driver('google')->user();
+    $existedUser=User::where('email',$gmailUser->getEmail())->first();
+    if($existedUser){
+        Auth::login($existedUser);
+    }
+    else{
+        $user = User::updateOrCreate([
+            'google_id' => $gmailUser->id,
+        ], [
+            'name' => $gmailUser->name,
+            'email' => $gmailUser->email,
+            'password' => bcrypt('default_password'),
+            'google_token' => $gmailUser->token,
+            'google_refresh_token' => $gmailUser->refreshToken,
+        ]);
+     
+        Auth::login($user);
+    }
+    // dd($githubUser);
+    
+    
+    return redirect('/posts');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Http::get('https://api.github.com/issues',[
