@@ -15,7 +15,7 @@
             
             @if($post->image_path)
             <img src="{{Storage::url($post->image_path)}}" width="250px"   alt="{{$post->title}}">
-        @endif
+            @endif
             
         </div>
     </div>

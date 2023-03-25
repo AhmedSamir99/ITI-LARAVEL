@@ -56,7 +56,7 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
         
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();
+            $filename = $image->getClientOriginalName(); //the name of the image
             $path = Storage::putFileAs('public/posts', $image, $filename);
             $post->image_path = $path;
             $post->save();
@@ -86,9 +86,9 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
 
             
         if ($request->hasFile('image')) {
-
             if($post->image_path){
                 $imagePath=$post->image_path;
+                dd($imagePath);
                 Storage::delete('public/posts/'. $imagePath);
             }
             $image = $request->file('image');
@@ -97,6 +97,7 @@ return view('post.show', ["comments"=>$comments],['post' => $post]);
             $post->image_path = $path;
         }
         
+
         
     
         $post->save();

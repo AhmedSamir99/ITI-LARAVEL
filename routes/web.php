@@ -3,7 +3,9 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommentController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,3 +50,36 @@ Route::group(['middleware'=>['auth']],function(){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+use Laravel\Socialite\Facades\Socialite;
+ 
+Route::get('/auth/redirect', function () {
+    // dd("stop");
+    return Socialite::driver('github')->redirect();
+});
+ 
+Route::get('/auth/callback', function () {
+    // $user = Socialite::driver('github')->user();
+    // dd($user);
+    $githubUser = Socialite::driver('github')->user();
+    // dd($githubUser);
+    $user = User::updateOrCreate([
+        'github_id' => $githubUser->id,
+    ], [
+        'name' => $githubUser->name,
+        'email' => $githubUser->email,
+        'github_token' => $githubUser->token,
+        'github_refresh_token' => $githubUser->refreshToken,
+    ]);
+ 
+    Auth::login($user);
+    
+});
+
+
+// Http::get('https://api.github.com/issues',[
+// 'Authorization'=>'Bearer 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'
+
+// ]);

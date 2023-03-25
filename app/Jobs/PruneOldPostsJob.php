@@ -27,7 +27,6 @@ class PruneOldPostsJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
         Post::where('created_at', '<=', now()->subYears(2))->delete();
     }
 }
